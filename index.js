@@ -75,6 +75,21 @@ const requestListener = function (req, res) {
                 res.end();
             }
         }
+        else if (req.url.includes('/delay')) {
+            let delayTime = parseInt(path.basename(req.url));
+            if (isNaN(delayTime)) {
+                res.writeHead(422);
+                res.write(http.STATUS_CODES[422]);
+                res.end();
+            }
+            else {
+                res.setTimeout(() => {
+                    res.writeHead(200);
+                    res.write(http.STATUS_CODES[200]);
+                    res.end();
+                }, delayTime);
+            }
+        }
         else {
             res.writeHead(404);
             res.write(http.STATUS_CODES[404])
