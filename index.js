@@ -1,6 +1,6 @@
 const fs = require('fs');
 const http = require('http');
-
+const { v4: uuidv4 } = require('uuid');
 
 const requestListener = function (req, res) {
     if (req.method === 'GET') {
@@ -46,6 +46,13 @@ const requestListener = function (req, res) {
                 }
                 res.end();
             })
+        } else if (req.url === '/uuid') {
+            res.writeHead(200, {
+                'Content-Type': 'application/JSON'
+            });
+            let uuidObject = { name: uuidv4() };
+            res.write(JSON.stringify(uuidObject));
+            res.end();
         }
         else {
             res.writeHead(404);
