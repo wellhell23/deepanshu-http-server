@@ -5,7 +5,7 @@ const path = require('path');
 
 const requestListener = function (req, res) {
     if (req.method === 'GET') {
-        if (req.url === '/html') {
+        if (req.url === '/html' || req.url === '/html/') {
 
             fs.readFile("./index.html", 'utf8', (err, htmlData) => {
                 if (err) {
@@ -27,7 +27,7 @@ const requestListener = function (req, res) {
                 res.end();
             });
         }
-        else if (req.url === '/json') {
+        else if (req.url === '/json' || req.url === '/json/') {
 
             fs.readFile("./data.json", 'utf8', (err, jsonData) => {
                 if (err) {
@@ -47,7 +47,7 @@ const requestListener = function (req, res) {
                 }
                 res.end();
             })
-        } else if (req.url === '/uuid') {
+        } else if (req.url === '/uuid' || req.url === '/uuid/') {
             res.writeHead(200, {
                 'Content-Type': 'application/JSON'
             });
@@ -76,7 +76,7 @@ const requestListener = function (req, res) {
             }
         }
         else if (req.url.includes('/delay')) {
-            let delayTime = parseInt(path.basename(req.url));
+            let delayTime = +path.basename(req.url);
             if (isNaN(delayTime)) {
                 res.writeHead(422);
                 res.write(http.STATUS_CODES[422]);
@@ -87,7 +87,7 @@ const requestListener = function (req, res) {
                     res.writeHead(200);
                     res.write(http.STATUS_CODES[200]);
                     res.end();
-                }, delayTime);
+                }, delayTime * 1000);
             }
         }
         else {
