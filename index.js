@@ -1,6 +1,7 @@
 const fs = require('fs');
 const http = require('http');
 const { v4: uuidv4 } = require('uuid');
+const path = require('path');
 
 const requestListener = function (req, res) {
     if (req.method === 'GET') {
@@ -53,6 +54,26 @@ const requestListener = function (req, res) {
             let uuidObject = { name: uuidv4() };
             res.write(JSON.stringify(uuidObject));
             res.end();
+        }
+        else if (req.url.includes('/status')) {
+
+            let statusCode = path.basename(req.url);
+            let responseStatus = http.STATUS_CODES[statusCode];
+            if (responseStatus) {
+                res.writeHead(parseInt(statusCode));
+                res.write(responseStatus);
+                res.end();
+            }
+            else if (statusCode == 'status') {
+                res.writeHead(422);
+                res.write(http.STATUS_CODES[422]);
+                res.end();
+            }
+            else {
+                res.writeHead(404);
+                res.write(http.STATUS_CODES[404])
+                res.end();
+            }
         }
         else {
             res.writeHead(404);
