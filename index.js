@@ -24,6 +24,27 @@ const requestListener = function (req, res) {
                     res.write(htmlData);
                 }
                 res.end();
+            });
+        }
+        else if (req.url === '/json') {
+
+            fs.readFile("./data.json", 'utf8', (err, jsonData) => {
+                if (err) {
+                    if (err.code === 'ENOENT') {
+                        res.writeHead(404);
+                        res.write("File Not Found");
+                    }
+                    else {
+                        res.writeHead(500);
+                        res.write("Something went wrong");
+                    }
+                } else {
+                    res.writeHead(200, {
+                        'Content-Type': 'application/JSON'
+                    });
+                    res.write(jsonData);
+                }
+                res.end();
             })
         }
         else {
