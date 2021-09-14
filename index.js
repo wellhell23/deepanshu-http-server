@@ -83,7 +83,7 @@ const requestListener = function (req, res) {
                 res.end();
             }
             else {
-                res.setTimeout(() => {
+                setTimeout(() => {
                     res.writeHead(200);
                     res.write(http.STATUS_CODES[200]);
                     res.end();
