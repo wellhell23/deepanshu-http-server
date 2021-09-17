@@ -104,4 +104,12 @@ const requestListener = function (req, res) {
 }
 
 const server = http.createServer(requestListener);
-server.listen(8080);
+server.listen((err) => {
+    if (err) {
+        console.error(err.message);
+    }
+    else {
+        console.log("Server is Running...");
+        console.log(server.address().port);
+    }
+});
