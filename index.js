@@ -16,6 +16,11 @@ app.get('/json', (req, res) => {
     res.redirect("/data.json");
 });
 
+app.get('/uuid', (req, res) => {
+    let uuidObject = { name: uuidv4() };
+    res.json(uuidObject);
+});
+
 app.listen(8080, () => {
     console.log("Server is Running");
 });
