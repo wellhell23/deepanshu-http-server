@@ -21,6 +21,16 @@ app.get('/uuid', (req, res) => {
     res.json(uuidObject);
 });
 
+app.get('/status/:id', (req, res) => {
+    let responseStatus = http.STATUS_CODES[req.params.id];
+    if (responseStatus) {
+        res.status(parseInt(req.params.id));
+        res.send(responseStatus);
+    } else {
+        res.status(404).send("Please enter correct status code");
+    }
+});
+
 app.listen(8080, () => {
     console.log("Server is Running");
 });
