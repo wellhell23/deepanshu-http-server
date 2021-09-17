@@ -31,6 +31,17 @@ app.get('/status/:id', (req, res) => {
     }
 });
 
+app.get('/delay/:id', (req, res) => {
+    if (req.params.id >= 0) {
+        setTimeout(() => {
+            res.send(`Delay time is ${req.params.id}`)
+        }, req.params.id * 1000);
+    }
+    else {
+        res.status(404).send(http.STATUS_CODES[404])
+    }
+})
+
 app.listen(8080, () => {
     console.log("Server is Running");
 });
